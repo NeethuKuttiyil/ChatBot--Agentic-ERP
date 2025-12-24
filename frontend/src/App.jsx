@@ -308,7 +308,7 @@ function App() {
                 formData.append("prompt", userMessage);
                 formData.append("image", asisImageFile);
 
-                response = await axios.post("http://localhost:3000/api/process-image", formData, {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/process-image", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 const data = response.data;
@@ -325,7 +325,7 @@ function App() {
             if (isChartRequest) {
                 updateAgentMessage("Generating chart data...");
 
-                response = await axios.post("http://localhost:3000/api/chart", { message: userMessage });
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/chart", { message: userMessage });
                 const responseData = response.data;
 
                 if (responseData.chartType && responseData.chartData) {
@@ -387,7 +387,7 @@ function App() {
 
                 updateAgentMessage(`Analyzing document "${targetDocumentName}" for ${analysisType} insight...`);
 
-                response = await axios.post("http://localhost:3000/api/document-analysis/analyze", {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/document-analysis/analyze", {
                     filename: targetDocumentName,
                     analysisType: analysisType,
                     question: question, // Pass question only if analysisType is 'answer-question'
@@ -407,7 +407,7 @@ function App() {
                     return;
                 }
                 updateAgentMessage("Analyzing process for improvements...");
-                response = await axios.post("http://localhost:3000/api/process-insight", {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/process-insight", {
                     processDescription: processDescription,
                     requestType: 'suggest_improvements'
                 });
@@ -421,7 +421,7 @@ function App() {
                     return;
                 }
                 updateAgentMessage("Performing conceptual process simulation...");
-                response = await axios.post("http://localhost:3000/api/process-insight", {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/process-insight", {
                     processDescription: processDescription,
                     requestType: 'conceptual_simulation'
                 });
@@ -435,7 +435,7 @@ function App() {
                     return;
                 }
                 updateAgentMessage("Generating automation steps...");
-                response = await axios.post("http://localhost:3000/api/process-insight", {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/process-insight", {
                     processDescription: processDescription,
                     requestType: 'automation_steps'
                 });
@@ -449,7 +449,7 @@ function App() {
                     return;
                 }
                 updateAgentMessage("Generating process documentation...");
-                response = await axios.post("http://localhost:3000/api/process-insight", {
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/process-insight", {
                     processDescription: processDescription,
                     requestType: 'generate_documentation'
                 });
@@ -470,7 +470,7 @@ function App() {
                     analysisResults: uploadedAnalysisResults.length > 0 ? uploadedAnalysisResults : ["No specific issues identified from Excel data."],
                 };
 
-                response = await axios.post("http://localhost:3000/api/recommend", dataForRecommendation);
+                response = await axios.post(import.meta.env.VITE_API_URL + "/api/recommend", dataForRecommendation);
                 updateAgentMessage(response.data.summary);
                 return;
             }
@@ -478,7 +478,7 @@ function App() {
             // --- Default Chat Response if no specific intent is matched ---
             updateAgentMessage("Thinking...");
 
-            const chatResponse = await axios.post("http://localhost:3000/api/chat", { message: userMessage });
+            const chatResponse = await axios.post(import.meta.env.VITE_API_URL + "/api/chat", { message: userMessage });
             const data = chatResponse.data;
 
             const reply = data.reply || data.error || "❌ No reply.";
@@ -515,7 +515,7 @@ function App() {
         });
 
         try {
-            const uploadResponse = await axios.post("http://localhost:3000/upload-files", formData, {
+            const uploadResponse = await axios.post(import.meta.env.VITE_API_URL + "/upload-files", formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
@@ -542,7 +542,7 @@ function App() {
             // --- Consolidated Excel analysis (triggered automatically after Excel upload) ---
             if (excelFilesUploaded.length > 0) {
                 updateAgentMessage("Analyzing ALL uploaded Excel data for consolidated insights...");
-                const analysisResponse = await axios.post("http://localhost:3000/api/excel-analysis/consolidated-analysis");
+                const analysisResponse = await axios.post(import.meta.env.VITE_API_URL + "/api/excel-analysis/consolidated-analysis");
 
                 setUploadedExcelSummary(analysisResponse.data.excelSummary);
                 setUploadedAnalysisResults(analysisResponse.data.analysisResults);
@@ -613,7 +613,7 @@ function App() {
         formData.append("prompt", input.trim() || "Describe this image in detail and identify any processes or objects shown.");
 
         try {
-            const response = await axios.post("http://localhost:3000/api/analyze-image", formData, {
+            const response = await axios.post(import.meta.env.VITE_API_URL + "/api/analyze-image", formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 

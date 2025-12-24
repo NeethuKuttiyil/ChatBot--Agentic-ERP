@@ -1,7 +1,7 @@
 // src/api/recommendationService.js
 export const getERPCRMRecommendation = async (payload) => {
   try {
-    const response = await fetch("http://localhost:3000/recommend-erp-crm", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/recommend-erp-crm", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

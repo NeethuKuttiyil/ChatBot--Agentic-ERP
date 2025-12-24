@@ -19,7 +19,7 @@ export default function ImageUpload() {
     formData.append("image", image);
 
     try {
-      const response = await axios.post("http://localhost:3000/upload-image", formData);
+      const response = await axios.post(import.meta.env.VITE_API_URL + "/upload-image", formData);
       setStatus(`✅ Uploaded: ${response.data.result.filename}`);
     } catch (err) {
       setStatus("❌ Upload failed.");
